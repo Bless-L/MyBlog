@@ -1,4 +1,4 @@
-#实现一个MVVM双向绑定的思路整理
+#实现一个MVVM的思路整理
 
 > 这几天研究了Vue的数据双向绑定原理，在网上搜了各种解读博客和看了一些MVVM的简单实现后，终于明白了其中的一些机制，由此不得不佩服作者的巧妙处理。下面简单总结一下。
 
@@ -7,6 +7,8 @@
 首先是思路上的明确。Vue中采用的是`Object.defineProperty()`中的`setter`，`getter`来对每个属性进行劫持，同时结合订阅者-发布者模式的方式，实现数据模版的自动更新。
 
 简单的流程可以这样来理解：
+
+![post-1-1](https://raw.githubusercontent.com/Bless-L/MyBlog/646fc6fd/assets/post-1-1.png)
 
 一、MVVM编译前**新建一个`Observer`对象来拦截`data`里面的每个数据**，大概有以下几个步骤：
 
@@ -30,13 +32,14 @@
 1. 对每个元素节点的指令进行扫描和解析，根据指令调用相应的`handler`函数进行处理
 2. 对每个属性依赖新建`Watcher`对象进行监听
 
- 
 
 三、**在MVVM实例初始化中整合流程一和流程二**
 
 
 
 一个简单的MVVM实现流程大概就是这些步骤，下面大概介绍下具体实现思路：
+
+![post-1-2](https://cdn.rawgit.com/Bless-L/MyBlog/646fc6fd/assets/post-1-2.png)
 
 
 
@@ -47,20 +50,13 @@
 巧妙的地方在第二点，如何确保当前的`Watcher`能够被正确添加？在需要把自身添加到队列时，我们可以在`Dep`全局对象中设置`Dep.target`为自身，在`getter`中则进行判断是否有`Dep.target`这个属性才决定是否进行添加队列操作，看一下别人实现的一个简单版的[代码](https://github.com/qieguo2016/Vueuv/blob/master/src/Watcher.js)，留意 `get`方法里面的一段：
 
 ```javascript
+//Watcher.js
 var uid = 0; //避免重复添加
 
-function Watcher(vm, expOrFn, cb){
-  this.uid = uid++;
-  this.$vm = vm;
-  this.expOrFn = expOrFn;
-  this.value = null;
-  this.cb = cb;
-  this.update();//初始化时执行一遍
-}
 Watcher.prototype = {
   get: function(){
     Dep.target = this;   //把自身添加到target上
-    var value = computeExpression(this.$vm, this.expOrFn);  //这里会触发到getter
+    var value = computeExpression(this.$vm, this.expOrFn);  //这里会触发到属性的getter
     Dep.target = null;   //执行完记得设为null
     return value;
   },
@@ -80,7 +76,7 @@ function computeExpression(scope, exp){
 }
 ```
 
-然后是`getter`里面，留意到判断到有`Dep.target`属性才添加到依赖队列中：
+然后是`Observer`中的`getter`里面，留意到判断到有`Dep.target`属性才添加到依赖队列中：
 
 ```javascript
 Observer.prototype = {
@@ -135,11 +131,11 @@ Dep.prototype = {
 
 
 
-### Compiler实现
+### Compiler及Watcher实现
 
-要实现这个需要对原生的一些DOM属性和节点操作办法比较熟悉，下面以一个最简单的文本节点解析为例。
+要实现`Compiler`需要对原生的一些DOM属性和节点操作办法比较熟悉，下面以一个最简单的文本节点解析为例。
 
-文本节点里面的表达式一般是 **{{ a + 'b' }} + 某些文字 **这样，对于这种字符串，我们就要转换为**scope.a + 'b' + '某些文字'**这样的表达式来执行，可以回顾一下上面的`computeExpression`函数，下面继续看一下别人的[简单实现](https://github.com/qieguo2016/Vueuv/blob/master/src/Compiler.js)：
+文本节点里面的表达式一般是 **{{ a + 'b' }} + 某些文字 ** 这样，对于这种字符串，我们就要转换为 **scope.a + 'b' + '某些文字'**这样的表达式来执行，可以回顾一下上面的`computeExpression`函数，下面继续看一下别人的[简单实现](https://github.com/qieguo2016/Vueuv/blob/master/src/Compiler.js)：
 
 ```javascript
 //先看下parseTextExp函数，其实就是正则匹配加字符串拼接的过程
@@ -222,7 +218,7 @@ Watcher.prototype = {
     return value;
   },
   update: function(){
-    //此处会调用getter，将Watcher添加到dep里面
+    //此处会调用getter，将Watcher添加到对应属性的dep队列里面
     var newVal = this.get();
     if(newVal !== this.value){
       this.cb.call(this.$vm, newVal, this.value);
