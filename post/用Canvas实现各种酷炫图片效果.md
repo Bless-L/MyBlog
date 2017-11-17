@@ -36,7 +36,7 @@ oriPeixel.data = []
 
 
 
-###Demo 1：图片反相渐变
+### Demo 1：图片反相渐变
 
 先看demo：[demo-1](http://bless-l.github.io/demo/post-1/demo-1/index.html)
 
@@ -216,7 +216,7 @@ this.ctx.putImageData(oriPixels, 0, 0)
 
 
 
-####**2、移动效果**
+#### **2、移动效果**
 
 光斑有了，自然就是让它动起来。这个就简单啦，光斑生成的我们已经完成，那么我们只要把圆心动起来就可以了
 
