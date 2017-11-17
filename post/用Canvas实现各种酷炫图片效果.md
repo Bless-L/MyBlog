@@ -38,9 +38,7 @@ oriPeixel.data = []
 
 ###Demo 1：图片反相渐变
 
-先看demo：
-
-[demo-1](http://bless-l.github.io/demo/post-1/demo-1/index.html)
+先看demo：[demo-1](http://bless-l.github.io/demo/post-1/demo-1/index.html)
 
 #### 1、像素处理
 
@@ -120,7 +118,7 @@ gradualChange () {
 }
 ```
 
-上面是渐变过程的主要代码，完整的代码可以查看：[]()
+上面是渐变过程的主要代码，完整的代码可以查看：[我是代码](https://github.com/Bless-L/little-project/blob/master/demo/post-1/demo-1/demo-1.js)
 
   
 
@@ -252,7 +250,7 @@ autoPlay (timestamp) {
 
 值得注意的是，因为在不断地更新`ImageData`，所以我们需要一个临时的`canvas`来存放原始图片的`ImageData`数据。demo1也是作了同样的处理
 
-完整的代码可以查看：[]()
+完整的代码可以查看：[PC端](https://github.com/Bless-L/little-project/blob/master/demo/post-1/demo-3/demo-3.js) 、 [移动端](https://github.com/Bless-L/little-project/blob/master/demo/post-1/demo-2/demo-2.js)
 
 
 
