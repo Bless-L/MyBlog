@@ -126,9 +126,8 @@ gradualChange () {
 
 同样是先看demo
 
-移动端：[demo-2](http://bless-l.github.io/demo/post-1/demo-2/index.html)
-
-PC端：[demo-3](http://bless-l.github.io/demo/post-1/demo-3/index.html)
+- 移动端：[demo-2](http://bless-l.github.io/demo/post-1/demo-2/index.html)
+- PC端：[demo-3](http://bless-l.github.io/demo/post-1/demo-3/index.html)
 
 可以见到，移动端的demo中，光条上有几个亮斑在同时移动；而PC端，则是在当鼠标hover上去之后，在光条中有一个圆形光斑的高亮效果，因为图片本身是透明的，所以背景色做了深色处理。
 
@@ -140,7 +139,7 @@ PC端：[demo-3](http://bless-l.github.io/demo/post-1/demo-3/index.html)
 
 
 
-##### 光斑实现
+**光斑实现**
 
 既然是圆形光斑，肯定是先有圆心和半径。在这里，我是在横向的方向上，取光条的中心为圆心，半径取50
 
@@ -217,7 +216,7 @@ this.ctx.putImageData(oriPixels, 0, 0)
 
 
 
-**光斑移动效果**
+####**2、移动效果**
 
 光斑有了，自然就是让它动起来。这个就简单啦，光斑生成的我们已经完成，那么我们只要把圆心动起来就可以了
 
@@ -258,3 +257,10 @@ autoPlay (timestamp) {
 
 以上便是使用`Canvas`实现一些图片效果的介绍，权当抛砖引玉，各种看官也可以发挥想象力，实现自己的酷炫效果
 
+
+
+### 参考
+
+- [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData)
+- [Uint8ClampedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray)
+- [Image Filters with Canvas](https://www.html5rocks.com/en/tutorials/canvas/imagefilters/)
