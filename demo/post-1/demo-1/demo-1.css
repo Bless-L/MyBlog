@@ -1,0 +1,30 @@
+.explain {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 20px;
+}
+.slides {
+  position: relative;
+  margin: 40px auto 0;
+  width: 790px;
+  height: 340px;
+  overflow: hidden;
+}
+.slides_pre,
+.slides_next {
+  position: absolute;
+  height: 100%;
+  width: 25%;
+  top: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+.slides_pre {
+  left: 0;
+}
+.slides_next {
+  right: 0;
+}
+#J_canvas_temp {
+  display: none;
+}
